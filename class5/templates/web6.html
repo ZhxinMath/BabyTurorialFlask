@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单一界面两个按钮执行文件上下传操作，界面同步更新上下传记录</title>
+    <style>
+        html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background: linear-gradient(45deg, #49a09d, #5f2c82);
+	font-family: sans-serif;
+	font-weight: 100;
+}
+
+.container {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+table {
+	width: 800px;
+	border-collapse: collapse;
+	overflow: hidden;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+th,
+td {
+	padding: 15px;
+	background-color: rgba(255,255,255,0.2);
+	color: #000;
+}
+
+th {
+	text-align: left;
+}
+
+thead {
+	th {
+		background-color: #55608f;
+	}
+}
+
+tbody {
+	tr {
+		&:hover {
+			background-color: rgba(255,255,255,0.3);
+		}
+	}
+	td {
+		position: relative;
+		&:hover {
+			&:before {
+				content: "";
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: -9999px;
+				bottom: -9999px;
+				background-color: rgba(255,255,255,0.2);
+				z-index: -1;
+			}
+		}
+	}
+}
+
+
+hr {
+    border: 4px solid green;
+    border-radius: 4px;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: green;
+    color: white;
+    text-align: center;
+}
+.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <center>
+        <h1>网页3：下拉选项</h1>
+        <hr>
+
+        <div>
+            <!-- multipart/form-data是有必要的，只有用了这个才能将进行文件上传 -->
+            <form action="/web6" method="POST" enctype="multipart/form-data">
+              <input type="file" name="file-uploader">
+              <p>上传文件，并展示文件名称</p>
+                <p><input type="submit" value="确定提交" name="upload_file"></p>
+              <p id="feedback"></p>
+            </form>
+        </div>
+
+        <hr>
+
+        <form class="form-inline" method="POST" action="/web6">
+            <div class="form-group">
+              <div class="input-group">
+                  <span class="input-group-addon">Please select</span>
+                      <select name="file_select" class="selectpicker form-control">
+                        {% for o in data %}
+                        <option value="{{ o.name }}">{{ o.name }}</option>
+                        {% endfor %}
+                      </select>
+              </div>
+              <button type="submit" class="btn btn-default" name="download_file">Go</button>
+            </div>
+          </form>
+        <hr>
+        <div class="footer">
+        </div>
+    </center>
+
+<div class="container">
+	<table>
+		<thead>
+			<tr>
+                {% for label in labels %}
+                    <th>{{ label }}</th>
+                {% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+            {% for i in record %}
+                <tr>
+                    {% for j in i %}
+                        <td>{{ j }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+</body>
+</html>

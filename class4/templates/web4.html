@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网页4：表格呈现</title>
+	<link href="{{url_for('static', filename='web4css.css')}}" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<div class="container">
+	<table>
+		<thead>
+			<tr>
+				<th>测试文件名称</th>
+				<th>模型文件名称</th>
+				<th>任务运行状态</th>
+				<th>任务启动时间</th>
+				<th>任务结束时间</th>
+			</tr>
+		</thead>
+		<tbody>
+            {% for i in content %}
+                <tr>
+                    {% for j in i %}
+                        <td>{{ j }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+		</tbody>
+	</table>
+</div>
+
+
+
+
+</body>
+</html>
