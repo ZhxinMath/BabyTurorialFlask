@@ -7,6 +7,10 @@ class2 包含了参数的传入传出，模板的使用
 
 class3 包含了后台任务的启动
 
+class4 包含了CSS的使用
+
+class5 包含了文件的上传、下载与后台记录
+
 因为本人不会js，所以当前仅含有静态页面的内容
 
 可以参考的资料有：
@@ -14,3 +18,9 @@ class3 包含了后台任务的启动
 -- 《Flask Web开发实战、入门、进阶于原理解析》
 
 -- http://www.pythondoc.com/flask-mega-tutorial/index.html
+
+后续预计包含如下的内容：
+
+1. Javascript的简单应用
+2. 后台不同进程的调动与计划
+
