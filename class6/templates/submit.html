@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProteinAI Design Hub - Submit Task</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+            margin-bottom: 30px;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #3b82f6;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .navbar-brand i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .user-display {
+            font-weight: 500;
+            color: #475569;
+        }
+        .btn-logout {
+            color: #dc2626;
+            border: 1px solid #dc2626;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .btn-logout:hover {
+            background-color: #dc2626;
+            color: white;
+        }
+        .alert {
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .alert-danger {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+        .page-title {
+            font-size: 1.75rem;
+            color: #1e40af;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+        .submission-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+            border-top: 4px solid #3b82f6;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #334155;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background-color: #2563eb;
+        }
+        .btn-cancel {
+            background-color: #e2e8f0;
+            color: #64748b;
+            margin-left: 10px;
+        }
+        .btn-cancel:hover {
+            background-color: #cbd5e1;
+        }
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+        }
+        .task-table th {
+            background-color: #f1f5f9;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #334155;
+        }
+        .task-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .task-table tr:hover {
+            background-color: #f8fafc;
+        }
+        .status {
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        .status-completed {
+            color: #065f46;
+            background-color: #d1fae5;
+        }
+        .status-failed {
+            color: #b91c1c;
+            background-color: #fee2e2;
+        }
+        .status-processing {
+            color: #92400e;
+            background-color: #fef3c7;
+        }
+        .scrollable-table {
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .scrollable-table::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollable-table::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .scrollable-table::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 4px;
+        }
+        .btn-download {
+            background-color: #10b981;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+        .btn-download:hover {
+            background-color: #0d9f6e;
+        }
+        .btn-disabled {
+            background-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            padding: 6px 12px;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-dna"></i> ProteinAI Design Hub
+            </a>
+            <div class="user-actions">
+                <span class="user-display">User: {{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn-logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <h1 class="page-title">Submit Analysis Task</h1>
+        
+        <div class="submission-card">
+            <form method="POST" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <label for="fileInput" class="form-label">Upload File</label>
+                    {{ form.file_input(class="form-control", id="fileInput", onchange="toggleInputs()") }}
+                    <button type="button" id="cancelFile" class="btn btn-cancel" style="display: none;" onclick="cancelFileUpload()">Cancel</button>
+                </div>
+                <div class="form-group">
+                    <label for="textInput" class="form-label">Or Enter Sequence</label>
+                    {{ form.text_input(class="form-control", id="textInput", rows="5", oninput="toggleInputs()", placeholder="Enter protein sequence here...") }}
+                </div>
+                {{ form.submit(class="btn") }}
+            </form>
+        </div>
+
+        {% if tasks %}
+        <div class="task-section">
+            <h2 class="page-title">Task Status</h2>
+            <div class="scrollable-table">
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>Task ID</th>
+                            <th>Input</th>
+                            <th>Status</th>
+                            <th>Submitted</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
+                    <tbody id="taskTableBody">
+                        {% for task in tasks %}
+                        <tr>
+                            <td>{{ task.id }}</td>
+                            <td>{{ task.input_content[:10] }}{% if task.input_content|length > 10 %}...{% endif %}</td>
+                            <td>
+                                <span class="status status-{{ task.status|lower }}">
+                                    {{ task.status }}
+                                </span>
+                            </td>
+                            <td>{{ task.created_at.strftime('%Y/%m/%d %H:%M') }}</td>
+                            <td>
+                                {% if task.status == 'COMPLETED' %}
+                                    <a href="{{ url_for('download_file', task_id=task.id) }}" class="btn btn-download">Download</a>
+                                {% elif task.status == 'FAILED' %}
+                                    <button class="btn btn-disabled">Failed</button>
+                                {% else %}
+                                    <button class="btn btn-disabled">Processing</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleInputs() {
+            var fileInput = document.getElementById('fileInput');
+            var textInput = document.getElementById('textInput');
+            var cancelFileBtn = document.getElementById('cancelFile');
+            
+            if (fileInput.files.length > 0) {
+                textInput.disabled = true;
+                cancelFileBtn.style.display = 'inline-block';
+            } else if (textInput.value.trim()) {
+                fileInput.disabled = true;
+                cancelFileBtn.style.display = 'none';
+            } else {
+                fileInput.disabled = false;
+                textInput.disabled = false;
+                cancelFileBtn.style.display = 'none';
+            }
+        }
+        
+        function cancelFileUpload() {
+            var fileInput = document.getElementById('fileInput');
+            fileInput.value = "";
+            toggleInputs();
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize input states
+            toggleInputs();
+            
+            // Auto-resize scrollable table if many tasks
+            let tableBody = document.getElementById("taskTableBody");
+            if (tableBody) {
+                let rowCount = tableBody.querySelectorAll("tr").length;
+                let tableContainer = document.querySelector(".scrollable-table");
+                
+                if (rowCount > 5) {
+                    tableContainer.style.maxHeight = "400px";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
